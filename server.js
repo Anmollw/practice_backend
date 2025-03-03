@@ -2,17 +2,15 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000; 
 
-function calculateSum(n) {
-    let ans = 0;
-    for (let i = 1; i <= n; i++) {
-        ans += i;
-    }
+function calculateSum(as,bs) {
+    let ans = as+bs
     return ans;
 }
 
 app.get('/', (req, res) => {
-    const n = parseInt(req.query.n) || 0; // d
-    const ans = calculateSum(n);
+    const as = parseInt(req.query.a) || 0; // d
+    const bs = parseInt(req.query.b) || 0;
+    const ans = calculateSum(as,bs);
     res.send(ans.toString());
 });
 
