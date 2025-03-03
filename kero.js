@@ -1,21 +1,21 @@
-const express = require("express")
-const port = 
+const express = require('express');
 const app = express();
+const port = process.env.PORT || 3000; 
 
-function calculateSum(n){
+function calculateSum(n) {
     let ans = 0;
-    for (let i=1; i<=n ; i++){
-        ans+=i;
+    for (let i = 1; i <= n; i++) {
+        ans += i;
     }
-    return ans
+    return ans;
 }
 
-app.get('/',function(req,res){
-    const n = req.query.n;
-    const ans = calculateSum(n)
+app.get('/', (req, res) => {
+    const n = parseInt(req.query.n) || 0; // d
+    const ans = calculateSum(n);
     res.send(ans.toString());
-})
+});
 
-app.listen(port,function(){
-    console.log(`beginning server from ${port}`)
-})
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
