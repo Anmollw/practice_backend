@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 
-// Function to generate random todos
 function generateRandomTodos(count = 5) {
   const todos = [];
   const todoTemplates = [
@@ -26,17 +25,16 @@ function generateRandomTodos(count = 5) {
   for (let i = 0; i < count; i++) {
     const template = todoTemplates[Math.floor(Math.random() * todoTemplates.length)];
     todos.push({
-      id: i + 1,
+      id: Math.floor(Math.random() * 100) + 1,
       title: template.title,
-      description: template.description,
-      completed: Math.random() < 0.3 // 30% chance of being completed
+      description: template.description
     });
   }
 
-  return todos;
+  return { todos };
 }
 
-// Route to get random todos
+// Route to get todos
 app.get('/todos', (req, res) => {
   const todos = generateRandomTodos();
   res.json(todos);
@@ -46,3 +44,4 @@ app.get('/todos', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
