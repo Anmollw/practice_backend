@@ -1,36 +1,48 @@
-const cors = require('cors');
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000; 
+const cors = require('cors');
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
 app.use(cors());
 
-function calculateSum(as,bs) {
-    let ans = as+bs
-    return ans;
+// Function to generate random todos
+function generateRandomTodos(count = 5) {
+  const todos = [];
+  const todoTemplates = [
+    { title: "Complete project", description: "Finish the current project milestone" },
+    { title: "Learn new skill", description: "Study a new programming language or framework" },
+    { title: "Exercise", description: "Go for a 30-minute workout" },
+    { title: "Read a book", description: "Read a chapter from a technical book" },
+    { title: "Organize workspace", description: "Clean and arrange the work desk" },
+    { title: "Network", description: "Connect with a professional on LinkedIn" },
+    { title: "Plan weekly goals", description: "Create a detailed plan for the upcoming week" },
+    { title: "Review code", description: "Do a code review for team project" },
+    { title: "Attend webinar", description: "Join an online tech conference" },
+    { title: "Practice algorithms", description: "Solve coding challenges on LeetCode" }
+  ];
+
+  for (let i = 0; i < count; i++) {
+    const template = todoTemplates[Math.floor(Math.random() * todoTemplates.length)];
+    todos.push({
+      id: i + 1,
+      title: template.title,
+      description: template.description,
+      completed: Math.random() < 0.3 // 30% chance of being completed
+    });
+  }
+
+  return todos;
 }
 
-app.get('/', (req, res) => {
-    const as = parseInt(req.query.a) || 0; // d
-    const bs = parseInt(req.query.b) || 0;
-    const ans = calculateSum(as,bs);
-    res.send(ans.toString());
+// Route to get random todos
+app.get('/todos', (req, res) => {
+  const todos = generateRandomTodos();
+  res.json(todos);
 });
 
-app.get('/interest', (req, res) => {
-    const principal = parseInt(req.query.principal);
-    const rate = parseInt(req.query.principal);
-    const time=parseInt(req.query.time);
-    const interest=(principal * rate * time)/100;
-    const total= principal + interest
-    res.send({
-    total : total,
-    interest: interest
-    })
-});
-
-
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
