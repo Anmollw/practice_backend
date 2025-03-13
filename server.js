@@ -1,5 +1,5 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -21,18 +21,18 @@ function generateSequentialTodos(count = 5) {
     { title: "Plan weekly goals", description: "Create a detailed plan for the upcoming week" },
     { title: "Review code", description: "Do a code review for team project" },
     { title: "Attend webinar", description: "Join an online tech conference" },
-    { title: "Practice algorithms", description: "Solve coding challenges on LeetCode" }
+    { title: "Practice algorithms", description: "Solve coding challenges on LeetCode" },
   ];
-  
+
   for (let i = 0; i < count; i++) {
     const template = todoTemplates[i % todoTemplates.length];
     todos.push({
       id: i + 1, // Sequential ID starting from 1
       title: template.title,
-      description: template.description
+      description: template.description,
     });
   }
-  
+
   return todos;
 }
 
@@ -40,23 +40,22 @@ function generateSequentialTodos(count = 5) {
 allTodos = generateSequentialTodos(10);
 
 // Route to get todos with optional id query parameter
-app.get('/todos', (req, res) => {
+app.get("/todos", (req, res) => {
   const todoId = req.query.id;
-  
-  // If todoId is provided, return only that specific todo
+
+  // If an ID is provided, return a single todo as an object instead of wrapping it in an array
   if (todoId) {
     const id = parseInt(todoId);
-    const todo = allTodos.find(todo => todo.id === id);
-    
+    const todo = allTodos.find((todo) => todo.id === id);
+
     if (todo) {
-      // Return single todo in the same format as multiple todos
-      return res.json({ todos: [todo] });
+      return res.json({ todos: todo }); // Return a single object instead of an array
     } else {
       return res.status(404).json({ error: "Todo not found" });
     }
   }
-  
-  // If no todoId, return all todos
+
+  // If no ID is provided, return the full array
   res.json({ todos: allTodos });
 });
 
