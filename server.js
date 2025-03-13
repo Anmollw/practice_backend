@@ -49,7 +49,8 @@ app.get('/todos', (req, res) => {
     const todo = allTodos.find(todo => todo.id === id);
     
     if (todo) {
-      return res.json({ todo });
+      // Return single todo in the same format as multiple todos
+      return res.json({ todos: [todo] });
     } else {
       return res.status(404).json({ error: "Todo not found" });
     }
