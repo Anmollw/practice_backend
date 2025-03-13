@@ -9,7 +9,7 @@ app.use(cors());
 // Store todos to keep consistent data between requests
 let allTodos = [];
 
-function generateRandomTodos(count = 5) {
+function generateSequentialTodos(count = 5) {
   const todos = [];
   const todoTemplates = [
     { title: "Complete project", description: "Finish the current project milestone" },
@@ -25,9 +25,9 @@ function generateRandomTodos(count = 5) {
   ];
   
   for (let i = 0; i < count; i++) {
-    const template = todoTemplates[Math.floor(Math.random() * todoTemplates.length)];
+    const template = todoTemplates[i % todoTemplates.length];
     todos.push({
-      id: Math.floor(Math.random() * 100) + 1,
+      id: i + 1, // Sequential ID starting from 1
       title: template.title,
       description: template.description
     });
@@ -37,7 +37,7 @@ function generateRandomTodos(count = 5) {
 }
 
 // Generate todos when the server starts
-allTodos = generateRandomTodos(10);
+allTodos = generateSequentialTodos(10);
 
 // Route to get todos with optional id query parameter
 app.get('/todos', (req, res) => {
