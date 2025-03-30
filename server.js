@@ -14,7 +14,7 @@ jobs : (Math.floor(Math.random() * 10)),
 messaging : (Math.floor(Math.random() * 10)),
 notifications : (Math.floor(Math.random() * 10)),
 }
-res.json({notifications});
+res.json(notifications);
 });
 
 app.listen(PORT , ()=>{
